@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:background="#666666">
+
+    <LinearLayout
+        android:id="@+id/function_list"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:padding="20dp"
+    	android:orientation="horizontal"
+    	android:gravity="center_vertical"
+    	android:background="@drawable/overlap_red">
+    	<Button
+    	    android:id="@+id/btn_func_delete"
+    	    android:layout_width="200dp"
+    		android:layout_height="100dp"
+    		android:layout_marginRight="20dp"
+    		android:background="@drawable/stkfuncbar_btn_bg"
+    		android:gravity="center"
+    		android:text="消去一"
+    		android:textColor="#000000"
+    		android:textSize="40dp" />
+    	<Button
+    	    android:id="@+id/btn_func_delete2"
+    	    android:layout_width="200dp"
+    		android:layout_height="100dp"
+    		android:layout_marginRight="20dp"
+    		android:background="@drawable/stkfuncbar_btn_bg"
+    		android:gravity="center"
+    		android:text="消去二"
+    		android:textColor="#000000"
+    		android:textSize="40dp" />
+    	<Button
+    	    android:id="@+id/btn_func_assign"
+    	    android:layout_width="200dp"
+    		android:layout_height="100dp"
+    		android:layout_marginRight="20dp"
+    		android:background="@drawable/stkfuncbar_btn_bg"
+    		android:gravity="center"
+    		android:text="指定"
+    		android:textColor="#000000"
+    		android:textSize="40dp" />
+    	<View
+    	    android:layout_width="2dp"
+    		android:layout_height="80dp"
+    		android:layout_marginRight="20dp"
+    		android:background="#131313" />
+    	<Button
+    	    android:id="@+id/btn_func_select"
+    	    android:layout_width="200dp"
+    		android:layout_height="100dp"
+    		android:layout_marginRight="20dp"
+    		android:background="@drawable/stkfuncbar_btn_bg"
+    		android:gravity="center"
+    		android:text="選題"
+    		android:textColor="#000000"
+    		android:textSize="40dp" />
+    	<Button
+    	    android:id="@+id/btn_func_answer"
+    	    android:layout_width="200dp"
+    		android:layout_height="100dp"
+    		android:layout_marginRight="20dp"
+    		android:background="@drawable/stkfuncbar_btn_bg"
+    		android:gravity="center"
+    		android:text="解答"
+    		android:textColor="#000000"
+    		android:textSize="40dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+    	android:layout_height="0dp"
+    	android:layout_weight="1"
+    	android:orientation="horizontal">
+    	
+	    <LinearLayout
+	        android:id="@+id/player_list"
+	        android:layout_width="200dp"
+	    	android:layout_height="match_parent"
+	    	android:padding="20dp"
+	    	android:gravity="center"
+	    	android:orientation="vertical"
+	    	android:background="@drawable/overlap_yellow">
+	    	<LinearLayout
+	    	    android:id="@+id/player_man"
+	    	    android:layout_width="match_parent"
+	    		android:layout_height="0dp"
+	    		android:layout_weight="1"
+	    		android:orientation="vertical"
+	    		android:gravity="center"
+	    		android:background="@drawable/shp_frame_blue">
+		    	<ImageView
+		    	    android:layout_width="128dp"
+		    	    android:layout_height="128dp"
+		    	    android:src="@drawable/man" />
+		    	<TextView
+		    	    android:id="@+id/man_score"
+		    	    android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_weight="1"
+		    		android:gravity="center"
+		    		android:text="得分"
+		    		android:textColor="#000000"
+	    			android:textSize="40dp" />
+		    </LinearLayout>
+	    	<LinearLayout
+	    	    android:id="@+id/player_woman"
+	    	    android:layout_width="match_parent"
+	    		android:layout_height="0dp"
+	    		android:layout_weight="1"
+	    		android:layout_marginTop="20dp"
+	    		android:orientation="vertical"
+	    		android:gravity="center">
+		    	<ImageView
+		    	    android:layout_width="128dp"
+		    	    android:layout_height="128dp"
+		    	    android:src="@drawable/woman" />
+		    	<TextView
+		    	    android:id="@+id/woman_score"
+		    	    android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_weight="1"
+		    		android:gravity="center"
+		    		android:text="得分"
+		    		android:textColor="#000000"
+	    			android:textSize="40dp" />
+		    </LinearLayout>
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:id="@+id/content_layout"
+	        android:layout_width="0dp"
+	    	android:layout_height="match_parent"
+	    	android:layout_weight="1"
+	    	android:padding="20dp"
+	    	android:orientation="vertical"
+	    	android:background="@drawable/overlap_green">
+	    	<TextView
+	    	    android:id="@+id/text_question"
+	    	    android:layout_width="match_parent"
+	    	    android:layout_height="0dp"
+	    	    android:layout_weight="1"
+	    	    android:gravity="left|center_vertical"
+	    	    android:text=""
+		    	android:textColor="#ee8822"
+	    		android:textSize="40dp" />
+	    	<RadioGroup
+	    	    android:id="@+id/group_answer"
+	    	    android:layout_width="match_parent"
+		    	android:layout_height="0dp"
+		    	android:layout_weight="1"
+		    	android:gravity="center"
+		    	android:orientation="horizontal"
+		    	android:padding="5dp">
+		    	<RadioButton
+		    	    android:id="@+id/text_ans_1"
+		    	    android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_weight="1"
+		    		android:button="@null"
+		    		android:text=""
+		    		android:textColor="#000000"
+	    			android:textSize="30dp" />
+		    	<RadioButton
+		    	    android:id="@+id/text_ans_2"
+		    	    android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_weight="1"
+		    		android:button="@null"
+		    		android:text=""
+		    		android:textColor="#000000"
+	    			android:textSize="30dp" />
+		    	<RadioButton
+		    	    android:id="@+id/text_ans_3"
+		    	    android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_weight="1"
+		    		android:button="@null"
+		    		android:text=""
+		    		android:textColor="#000000"
+	    			android:textSize="30dp" />
+		    	<RadioButton
+		    	    android:id="@+id/text_ans_4"
+		    	    android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:layout_weight="1"
+		    		android:button="@null"
+		    		android:text=""
+		    		android:textColor="#000000"
+	    			android:textSize="30dp" />
+		    </RadioGroup>
+	    </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

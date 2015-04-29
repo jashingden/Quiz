@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:minWidth="300dp"
+	android:minHeight="80dp"
+	android:background="@drawable/stkfuncbar_btn_bg"
+	android:gravity="center"
+	android:text="分類"
+	android:textColor="#000000"
+	android:textSize="40dp" />
