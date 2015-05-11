@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="deploy" name="Create Runnable Jar for Project SlideShareDownload">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+	
+	<property name="deploy.dir" location="deploy" />
+	<property name="build.dir" location="build" />
+	<property name="lib.dir" location="libs" />
+	<property name="config.file" location="${basedir}/SlideShareDownload.conf" />
+	<property name="proguard.jar" location="D:/Linux/proguard5.2/lib/proguard.jar" />
+	<property name="target.jar" value="target.jar" />
+	<property name="deploy.jar" value="SlideShareDownload.jar" />
+	<property name="main.class" value="com.eddy.slideshare.Downloader" />
+	
+	<target name="init">
+		<delete dir="${build.dir}" />
+		<delete dir="${deploy.dir}" />
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${deploy.dir}" />
+    	<copy todir="${deploy.dir}">
+    		<fileset dir="${lib.dir}" />
+    	</copy>
+    	<copy file="${config.file}" todir="${deploy.dir}" />
+	</target>
+	
+    <path id="build.classpath">
+        <pathelement location="${build.dir}" />
+    	<fileset dir="${lib.dir}">
+    		<include name="*.jar" />
+    	</fileset>
+    </path>
+	
+    <target name="build" depends="init">
+        <javac destdir="build" includeantruntime="false" source="1.7" target="1.7" encoding="UTF-8">
+            <src path="src" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+	
+	<path id="lib.path">
+		<fileset dir="${lib.dir}" />
+	</path>
+	
+	<pathconvert property="lib.classpath" pathsep=" ">
+		<path refid="lib.path" />
+		<map from="${lib.dir}/" to="" />
+	</pathconvert>
+	
+    <target name="deploy" depends="build">
+        <jar destfile="${deploy.dir}/${target.jar}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value=". ${lib.classpath}"/>
+            </manifest>
+        	<fileset dir="${build.dir}"/>
+        	<!--
+        	<zipgroupfileset dir="${lib.dir}" excludes="META-INF/*.SF" />
+        	-->
+        </jar>
+    	
+    	<taskdef resource="proguard/ant/task.properties" classpath="${proguard.jar}" />
+    	<proguard configuration="proguard-project.pro"
+    			  printmapping="${deploy.dir}/out.map"
+    	          renamesourcefileattribute="SourceFile">
+    	    <injar  file="${deploy.dir}/${target.jar}" />
+    	    <outjar file="${deploy.dir}/${deploy.jar}" />
+    		<libraryjar file="${java.home}/lib/rt.jar" />
+    		<libraryjar dir="${lib.dir}" />
+    	</proguard>
+    	
+    	<delete file="${deploy.dir}/${target.jar}" />
+    </target>
+</project>
