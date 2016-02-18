@@ -1,5 +1,6 @@
+歷史=cat06.txt
 地理=cat01.txt
 民俗=cat02.txt
 國際=cat03.txt
 宗教=cat04.txt
-音樂=cat05.txt
+藝術=cat05.txt

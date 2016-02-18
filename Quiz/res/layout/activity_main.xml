@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:padding="@dimen/frame_margin"
     android:orientation="vertical"
     android:background="#666666">
 
@@ -16,59 +16,59 @@
     	android:background="@drawable/overlap_red">
     	<Button
     	    android:id="@+id/btn_func_delete"
-    	    android:layout_width="200dp"
-    		android:layout_height="100dp"
-    		android:layout_marginRight="20dp"
+    	    android:layout_width="@dimen/btn_func_width"
+    		android:layout_height="@dimen/btn_func_height"
+    		android:layout_marginRight="@dimen/btn_func_margin"
     		android:background="@drawable/stkfuncbar_btn_bg"
     		android:gravity="center"
     		android:text="消去一"
     		android:textColor="#000000"
-    		android:textSize="40dp" />
+    		android:textSize="@dimen/btn_func_text_size" />
     	<Button
     	    android:id="@+id/btn_func_delete2"
-    	    android:layout_width="200dp"
-    		android:layout_height="100dp"
-    		android:layout_marginRight="20dp"
+    	    android:layout_width="@dimen/btn_func_width"
+    		android:layout_height="@dimen/btn_func_height"
+    		android:layout_marginRight="@dimen/btn_func_margin"
     		android:background="@drawable/stkfuncbar_btn_bg"
     		android:gravity="center"
     		android:text="消去二"
     		android:textColor="#000000"
-    		android:textSize="40dp" />
+    		android:textSize="@dimen/btn_func_text_size" />
     	<Button
     	    android:id="@+id/btn_func_assign"
-    	    android:layout_width="200dp"
-    		android:layout_height="100dp"
-    		android:layout_marginRight="20dp"
+    	    android:layout_width="@dimen/btn_func_width"
+    		android:layout_height="@dimen/btn_func_height"
+    		android:layout_marginRight="@dimen/btn_func_margin"
     		android:background="@drawable/stkfuncbar_btn_bg"
     		android:gravity="center"
     		android:text="指定"
     		android:textColor="#000000"
-    		android:textSize="40dp" />
+    		android:textSize="@dimen/btn_func_text_size" />
     	<View
     	    android:layout_width="2dp"
-    		android:layout_height="80dp"
-    		android:layout_marginRight="20dp"
+    		android:layout_height="@dimen/btn_func_height"
+    		android:layout_marginRight="@dimen/btn_func_margin"
     		android:background="#131313" />
     	<Button
     	    android:id="@+id/btn_func_select"
-    	    android:layout_width="200dp"
-    		android:layout_height="100dp"
-    		android:layout_marginRight="20dp"
+    	    android:layout_width="@dimen/btn_func_width"
+    		android:layout_height="@dimen/btn_func_height"
+    		android:layout_marginRight="@dimen/btn_func_margin"
     		android:background="@drawable/stkfuncbar_btn_bg"
     		android:gravity="center"
     		android:text="選題"
     		android:textColor="#000000"
-    		android:textSize="40dp" />
+    		android:textSize="@dimen/btn_func_text_size" />
     	<Button
     	    android:id="@+id/btn_func_answer"
-    	    android:layout_width="200dp"
-    		android:layout_height="100dp"
-    		android:layout_marginRight="20dp"
+    	    android:layout_width="@dimen/btn_func_width"
+    		android:layout_height="@dimen/btn_func_height"
+    		android:layout_marginRight="@dimen/btn_func_margin"
     		android:background="@drawable/stkfuncbar_btn_bg"
     		android:gravity="center"
     		android:text="解答"
     		android:textColor="#000000"
-    		android:textSize="40dp" />
+    		android:textSize="@dimen/btn_func_text_size" />
     </LinearLayout>
 
     <LinearLayout
@@ -79,9 +79,9 @@
     	
 	    <LinearLayout
 	        android:id="@+id/player_list"
-	        android:layout_width="200dp"
+	        android:layout_width="@dimen/player_width"
 	    	android:layout_height="match_parent"
-	    	android:padding="20dp"
+	    	android:padding="@dimen/player_margin"
 	    	android:gravity="center"
 	    	android:orientation="vertical"
 	    	android:background="@drawable/overlap_yellow">
@@ -94,8 +94,8 @@
 	    		android:gravity="center"
 	    		android:background="@drawable/shp_frame_blue">
 		    	<ImageView
-		    	    android:layout_width="128dp"
-		    	    android:layout_height="128dp"
+		    	    android:layout_width="@dimen/player_icon_size"
+		    	    android:layout_height="@dimen/player_icon_size"
 		    	    android:src="@drawable/man" />
 		    	<TextView
 		    	    android:id="@+id/man_score"
@@ -105,19 +105,19 @@
 		    		android:gravity="center"
 		    		android:text="得分"
 		    		android:textColor="#000000"
-	    			android:textSize="40dp" />
+	    			android:textSize="@dimen/player_score_size" />
 		    </LinearLayout>
 	    	<LinearLayout
 	    	    android:id="@+id/player_woman"
 	    	    android:layout_width="match_parent"
 	    		android:layout_height="0dp"
 	    		android:layout_weight="1"
-	    		android:layout_marginTop="20dp"
+	    		android:layout_marginTop="@dimen/player_margin"
 	    		android:orientation="vertical"
 	    		android:gravity="center">
 		    	<ImageView
-		    	    android:layout_width="128dp"
-		    	    android:layout_height="128dp"
+		    	    android:layout_width="@dimen/player_icon_size"
+		    	    android:layout_height="@dimen/player_icon_size"
 		    	    android:src="@drawable/woman" />
 		    	<TextView
 		    	    android:id="@+id/woman_score"
@@ -127,7 +127,7 @@
 		    		android:gravity="center"
 		    		android:text="得分"
 		    		android:textColor="#000000"
-	    			android:textSize="40dp" />
+	    			android:textSize="@dimen/player_score_size" />
 		    </LinearLayout>
 	    </LinearLayout>
 
@@ -136,7 +136,7 @@
 	        android:layout_width="0dp"
 	    	android:layout_height="match_parent"
 	    	android:layout_weight="1"
-	    	android:padding="20dp"
+	    	android:padding="@dimen/content_margin"
 	    	android:orientation="vertical"
 	    	android:background="@drawable/overlap_green">
 	    	<TextView
@@ -147,7 +147,7 @@
 	    	    android:gravity="left|center_vertical"
 	    	    android:text=""
 		    	android:textColor="#ee8822"
-	    		android:textSize="40dp" />
+	    		android:textSize="@dimen/question_size" />
 	    	<RadioGroup
 	    	    android:id="@+id/group_answer"
 	    	    android:layout_width="match_parent"
@@ -164,7 +164,7 @@
 		    		android:button="@null"
 		    		android:text=""
 		    		android:textColor="#000000"
-	    			android:textSize="30dp" />
+	    			android:textSize="@dimen/answer_size" />
 		    	<RadioButton
 		    	    android:id="@+id/text_ans_2"
 		    	    android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
 		    		android:button="@null"
 		    		android:text=""
 		    		android:textColor="#000000"
-	    			android:textSize="30dp" />
+	    			android:textSize="@dimen/answer_size" />
 		    	<RadioButton
 		    	    android:id="@+id/text_ans_3"
 		    	    android:layout_width="wrap_content"
@@ -182,7 +182,7 @@
 		    		android:button="@null"
 		    		android:text=""
 		    		android:textColor="#000000"
-	    			android:textSize="30dp" />
+	    			android:textSize="@dimen/answer_size" />
 		    	<RadioButton
 		    	    android:id="@+id/text_ans_4"
 		    	    android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
 		    		android:button="@null"
 		    		android:text=""
 		    		android:textColor="#000000"
-	    			android:textSize="30dp" />
+	    			android:textSize="@dimen/answer_size" />
 		    </RadioGroup>
 	    </LinearLayout>
     </LinearLayout>

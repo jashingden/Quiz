@@ -1,17 +1,15 @@
 package com.eddy.quiz;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -22,11 +20,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	
-	private final static int TURN_MAN = 0;
-	private final static int TURN_WOMAN = 1;
 	
 	private Button btn_func_delete;
 	private Button btn_func_delete2;
@@ -51,7 +47,7 @@ public class MainActivity extends Activity {
 	private QuestionAnswer mQuestionAnswer;
 	private Player mMan = new Player();
 	private Player mWoman = new Player();
-	private int mTurn = TURN_MAN;
+	private int mTurn = Player.TURN_MAN;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -68,9 +64,9 @@ public class MainActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			new AlertDialog.Builder(this)
-			.setTitle("訊息通知")
-			.setMessage("請確定是否離開程式?")
-			.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+			.setTitle(R.string.alert_title)
+			.setMessage(R.string.alert_confirm_exit)
+			.setPositiveButton(R.string.alert_ok, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int whichButton) {
 					MainActivity.this.finish();
@@ -82,16 +78,27 @@ public class MainActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 	
+	private void showMessageDialog(int resId) {
+		String message = getString(resId);
+		new AlertDialog.Builder(this)
+		.setTitle(R.string.alert_title)
+		.setMessage(message)
+		.setPositiveButton(R.string.alert_ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+				dialog.dismiss();
+			}
+		}).show();
+	}
+	
 	private void showSelectDialog() {
-		LinearLayout select_layout = new LinearLayout(this);
-		select_layout.setOrientation(LinearLayout.VERTICAL);
-		select_layout.setPadding(20, 20, 20, 20);
+		LayoutInflater inflater = this.getLayoutInflater();
+		View layout = inflater.inflate(R.layout.select_layout, null);
+		LinearLayout select_layout = (LinearLayout)layout.findViewById(R.id.select_list);
 		
 		for (Category cat : mCategoryList) {
-			Button btn = (Button)this.getLayoutInflater().inflate(R.layout.select_button, null);
+			Button btn = (Button)inflater.inflate(R.layout.select_button, null);
 			btn.setText(cat.name);
-			btn.setTextColor(Color.BLACK);
-			btn.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40);
 			btn.setTag(cat);
 			btn.setOnClickListener(new OnClickListener() {
 				@Override
@@ -107,8 +114,12 @@ public class MainActivity extends Activity {
 		
 		select_dialog = new Dialog(this);
 		select_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		select_dialog.setContentView(select_layout);
+		select_dialog.setContentView(layout);
 		select_dialog.show();
+	}
+	
+	private void showToast(int resId, boolean showLong) {
+		Toast.makeText(this, resId, showLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
 	}
 	
 	private void clearQuestion() {
@@ -145,7 +156,11 @@ public class MainActivity extends Activity {
 		if (answerId == checkedId) {
 			Player player = getPlayer();
 			player.score ++;
+			showToast(R.string.toast_right_answer, false);
+		} else {
+			showToast(R.string.toast_wrong_answer, false);
 		}
+		mQuestionAnswer = null;
 	}
 	
 	private void showDeleteAnswer(int delete_items) {
@@ -169,7 +184,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private Player getPlayer() {
-		if (mTurn == TURN_MAN) {
+		if (mTurn == Player.TURN_MAN) {
 			return mMan;
 		} else {
 			return mWoman;
@@ -177,12 +192,12 @@ public class MainActivity extends Activity {
 	}
 	
 	private void turnPlayer() {
-		if (mTurn == TURN_MAN) {
-			mTurn = TURN_WOMAN;
+		if (mTurn == Player.TURN_MAN) {
+			mTurn = Player.TURN_WOMAN;
 			player_woman.setBackgroundResource(R.drawable.shp_frame_blue);
 			player_man.setBackgroundColor(Color.TRANSPARENT);
 		} else {
-			mTurn = TURN_MAN;
+			mTurn = Player.TURN_MAN;
 			player_man.setBackgroundResource(R.drawable.shp_frame_blue);
 			player_woman.setBackgroundColor(Color.TRANSPARENT);
 		}
@@ -195,44 +210,65 @@ public class MainActivity extends Activity {
 		btn_func_delete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPlayer().function_used[0] = true;
-				showDeleteAnswer(1);
-				updateFunctions();
+				if (mQuestionAnswer != null) {
+					getPlayer().function_used[0] = true;
+					showDeleteAnswer(1);
+					updateFunctions();
+					showToast(R.string.toast_func_delete, true);
+				}
 			}
 		});
 		btn_func_delete2 = (Button)this.findViewById(R.id.btn_func_delete2);
 		btn_func_delete2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPlayer().function_used[1] = true;
-				showDeleteAnswer(2);
-				updateFunctions();
+				if (mQuestionAnswer != null) {
+					getPlayer().function_used[1] = true;
+					showDeleteAnswer(2);
+					updateFunctions();
+					showToast(R.string.toast_func_delete2, true);
+				}
 			}
 		});
 		btn_func_assign = (Button)this.findViewById(R.id.btn_func_assign);
 		btn_func_assign.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getPlayer().function_used[2] = true;
-				turnPlayer();
-				updateFunctions();
+				if (mQuestionAnswer != null) {
+					getPlayer().function_used[2] = true;
+					turnPlayer();
+					updateFunctions();
+					showToast(R.string.toast_func_assign, true);
+				}
 			}
 		});
 		btn_func_select = (Button)this.findViewById(R.id.btn_func_select);
 		btn_func_select.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				clearQuestion();
-				showSelectDialog();
+				if (mQuestionAnswer == null) {
+					if (mCategoryList.size() > 0) {
+						clearQuestion();
+						showSelectDialog();
+					} else {
+						showMessageDialog(R.string.msg_no_questions);
+					}
+				}
 			}
 		});
 		btn_func_answer = (Button)this.findViewById(R.id.btn_func_answer);
 		btn_func_answer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showAnswer();
-				turnPlayer();
-				updateFunctions();
+				if (mQuestionAnswer != null) {
+					if (-1 != group_answer.getCheckedRadioButtonId()) {
+						showAnswer();
+						turnPlayer();
+						updateFunctions();
+					} else {
+						showMessageDialog(R.string.msg_select_answer);
+					}
+				}
 			}
 		});
 		
@@ -250,96 +286,31 @@ public class MainActivity extends Activity {
 		group_answer.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				for (RadioButton btn : btn_answer) {
-					btn.setBackgroundColor(Color.TRANSPARENT);
-				}
-				if (checkedId == R.id.text_ans_1) {
-					btn_answer[0].setBackgroundResource(R.drawable.shp_frame_blue);
-				} else if (checkedId == R.id.text_ans_2) {
-					btn_answer[1].setBackgroundResource(R.drawable.shp_frame_blue);
-				} else if (checkedId == R.id.text_ans_3) {
-					btn_answer[2].setBackgroundResource(R.drawable.shp_frame_blue);
-				} else if (checkedId == R.id.text_ans_4) {
-					btn_answer[3].setBackgroundResource(R.drawable.shp_frame_blue);
+				if (mQuestionAnswer != null) {
+					for (RadioButton btn : btn_answer) {
+						btn.setBackgroundColor(Color.TRANSPARENT);
+					}
+					if (checkedId == R.id.text_ans_1) {
+						btn_answer[0].setBackgroundResource(R.drawable.shp_frame_blue);
+					} else if (checkedId == R.id.text_ans_2) {
+						btn_answer[1].setBackgroundResource(R.drawable.shp_frame_blue);
+					} else if (checkedId == R.id.text_ans_3) {
+						btn_answer[2].setBackgroundResource(R.drawable.shp_frame_blue);
+					} else if (checkedId == R.id.text_ans_4) {
+						btn_answer[3].setBackgroundResource(R.drawable.shp_frame_blue);
+					}
 				}
 			}
 		});
 	}
 	
 	private void loadFiles() {
-		String[] cat_file = readStringArrayFromAssetFile("category.txt");
+		String[] cat_file = Utility.readStringArrayFromAssetFile(this, "category.txt");
 		
 	    for (String file : cat_file) {
 	    	String[] tmp = file.split("=");
-	    	mCategoryList.add(new Category(tmp[0], tmp[1]));
+	    	mCategoryList.add(new Category(this, mCategoryList, tmp[0], tmp[1]));
 	    }
 	}
 	
-	private String[] readStringArrayFromAssetFile(String filename) {
-		AssetManager asset = this.getAssets();
-	    String txt = "";
-		try {
-			InputStream in = asset.open(filename);
-	        byte[] b = new byte[in.available()];
-	        in.read(b);
-	        txt = Utility.readString(b);
-		} catch (Exception e) {
-			return new String[0];
-		}
-	    return txt.split("\r\n");
-	}
-	
-	private class Player {
-		public boolean[] function_used = new boolean[3];
-		public int score;
-	}
-	
-	private class Category {
-		public String name;
-		public ArrayList<QuestionAnswer> list = new ArrayList<QuestionAnswer>();
-		
-		public Category(String title, String filename) {
-			name = title;
-			String[] strList = readStringArrayFromAssetFile(filename);
-			String question = null;
-			String[] answer;
-			for (String str : strList) {
-				if (str.startsWith("Q:")) {
-					question = str.substring(2);
-					answer = null;
-				} else if (str.startsWith("A:")) {
-					answer = str.substring(2).split(";");
-					try {
-						list.add(new QuestionAnswer(question, answer));
-					} catch (Exception e) {
-					}
-				}
-			}
-		}
-		
-		public QuestionAnswer getQuestion() {
-			int count = list.size();
-			int index = (int)(Math.random()* count);
-			QuestionAnswer qa = list.remove(index);
-			if (list.size() <= 0) {
-				mCategoryList.remove(this);
-			}
-			return qa;
-		}
-	}
-	
-	private class QuestionAnswer {
-		public String question;
-		public String[] answer = new String[4];
-		public int right_answer;
-		
-		public QuestionAnswer(String quest, String[] ans) {
-			question = quest;
-			right_answer = Integer.parseInt(ans[0])-1;
-			for (int i = 1; i < 5; i++) {
-				String[] tmp = ans[i].split(",");
-				answer[Integer.parseInt(tmp[0])-1] = "(" + tmp[0] + ") " + tmp[1];
-			}
-		}
-	}
 }

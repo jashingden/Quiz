@@ -2,7 +2,19 @@
 <resources>
 
     <string name="app_name">Quiz</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    
+    <string name="alert_title">訊息通知</string>
+    <string name="alert_confirm_exit">請確定是否離開程式?</string>
+    <string name="alert_ok">確定</string>
+    
+    <string name="msg_no_questions">全部題目皆已回答!</string>
+    <string name="msg_select_answer">請先選擇一個答案!</string>
+    
+    <string name="toast_right_answer">恭喜您答對了!</string>
+    <string name="toast_wrong_answer">很抱歉您答錯了!</string>
+    
+    <string name="toast_func_delete">您使用求救，消去一個錯誤的答案!</string>
+    <string name="toast_func_delete2">您使用求救，消去兩個錯誤的答案!</string>
+    <string name="toast_func_assign">您使用求救，此題目將指定對手回答!</string>
 
 </resources>
