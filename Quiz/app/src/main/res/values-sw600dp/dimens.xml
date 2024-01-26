@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="frame_margin">10dp</dimen>
+    
+    <dimen name="btn_func_width">150dp</dimen>
+    <dimen name="btn_func_height">60dp</dimen>
+    <dimen name="btn_func_margin">20dp</dimen>
+    <dimen name="btn_func_text_size">32dp</dimen>
+    
+    <dimen name="player_width">180dp</dimen>
+    <dimen name="player_margin">10dp</dimen>
+    <dimen name="player_icon_size">96dp</dimen>
+    <dimen name="player_score_size">30dp</dimen>
+    
+    <dimen name="content_margin">10dp</dimen>
+    <dimen name="question_size">36dp</dimen>
+    <dimen name="answer_size">26dp</dimen>
+    
+    <dimen name="select_margin">10dp</dimen>
+    <dimen name="select_btn_minwidth">200dp</dimen>
+    <dimen name="select_btn_minheight">60dp</dimen>
+    <dimen name="select_btn_text_size">30dp</dimen>
+</resources>
