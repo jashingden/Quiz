@@ -3,12 +3,13 @@
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
 		android:state_pressed="true"
-		android:drawable="@drawable/stkfuncbar_btn_p" />
+		android:state_enabled="true"
+		android:drawable="@drawable/btncolor_inset_p" />
 	<item
 		android:state_focused="true"
 		android:state_enabled="true"
-		android:drawable="@drawable/stkfuncbar_btn_p" />
+		android:drawable="@drawable/btncolor_inset_p" />
 	<item
 		android:state_enabled="true"
-		android:drawable="@drawable/stkfuncbar_btn_n" />
+		android:drawable="@drawable/btncolor_inset_p" />
 </selector>
