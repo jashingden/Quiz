@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
     private Dialog select_dialog;
 
+    private View bingo_layout;
+    private View quest_ans_layout;
+    private TextView[][] bingo_text = new TextView[5][5];
+    private TextView selected_bingo_text;
+
     private ArrayList<Category> mCategoryList = new ArrayList<Category>();
     private Category mCategory;
     private QuestionAnswer mQuestionAnswer;
@@ -174,10 +179,20 @@ public class MainActivity extends AppCompatActivity {
             Player player = getPlayer();
             player.score ++;
             showToast(R.string.toast_right_answer, false);
+            if (selected_bingo_text != null) {
+                selected_bingo_text.setBackgroundColor(Color.GREEN);
+            }
         } else {
             showToast(R.string.toast_wrong_answer, false);
+            if (selected_bingo_text != null) {
+                selected_bingo_text.setBackgroundColor(Color.RED);
+            }
+        }
+        if (selected_bingo_text != null) {
+            selected_bingo_text.setEnabled(false);
         }
         mQuestionAnswer = null;
+        selected_bingo_text = null;
     }
 
     private void showDeleteAnswer(int delete_items) {
@@ -220,9 +235,40 @@ public class MainActivity extends AppCompatActivity {
         }
         man_score.setText(String.valueOf(mMan.score));
         woman_score.setText(String.valueOf(mWoman.score));
+
+        bingo_layout.setVisibility(View.VISIBLE);
+        quest_ans_layout.setVisibility(View.GONE);
     }
 
     private void getView() {
+        bingo_layout = this.findViewById(R.id.bingo_layout);
+        quest_ans_layout = this.findViewById(R.id.quest_ans_layout);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                int resId = getResources().getIdentifier("bingo_" + i + "_" + j, "id", getPackageName());
+                bingo_text[i][j] = (TextView) this.findViewById(resId);
+                bingo_text[i][j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCategory = (Category) v.getTag();
+                        if (mCategory.list.size() > 0) {
+                            selected_bingo_text = (TextView) v;
+                            mQuestionAnswer = mCategory.getQuestion();
+                            clearQuestion();
+                            showQuestion(mQuestionAnswer);
+                            bingo_layout.setVisibility(View.GONE);
+                            quest_ans_layout.setVisibility(View.VISIBLE);
+                            v.setBackgroundColor(Color.YELLOW);
+                            v.setEnabled(false);
+                        } else {
+                            showMessageDialog(R.string.msg_no_questions);
+                        }
+                    }
+                });
+            }
+        }
+
         btn_func_delete = (Button)this.findViewById(R.id.btn_func_delete);
         btn_func_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         btn_func_select = (Button)this.findViewById(R.id.btn_func_select);
+        btn_func_select.setVisibility(View.GONE);
         btn_func_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,6 +374,20 @@ public class MainActivity extends AppCompatActivity {
         for (String file : cat_file) {
             String[] tmp = file.split("=");
             mCategoryList.add(new Category(this, mCategoryList, tmp[0], tmp[1]));
+        }
+
+        initBingo();
+    }
+
+    private void initBingo() {
+        ArrayList<Category> temp = new ArrayList<>(mCategoryList);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                int index = (int) (Math.random() * temp.size());
+                Category cat = temp.get(index);
+                bingo_text[i][j].setText(cat.name);
+                bingo_text[i][j].setTag(cat);
+            }
         }
     }
 

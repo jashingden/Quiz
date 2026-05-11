@@ -133,69 +133,120 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/content_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="@dimen/content_margin"
-            android:orientation="vertical"
-            android:background="@drawable/overlap_green">
-            <TextView
-                android:id="@+id/text_question"
+            android:layout_weight="1">
+
+            <TableLayout
+                android:id="@+id/bingo_layout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="left|center_vertical"
-                android:text=""
-                android:textColor="#cc6600"
-                android:textSize="@dimen/question_size" />
-            <RadioGroup
-                android:id="@+id/group_answer"
+                android:layout_height="match_parent"
+                android:stretchColumns="0,1,2,3,4"
+                android:visibility="visible"
+                android:background="@drawable/overlap_green">
+                <TableRow android:layout_weight="1">
+                    <TextView android:id="@+id/bingo_0_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_0_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_0_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_0_3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_0_4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                </TableRow>
+                <TableRow android:layout_weight="1">
+                    <TextView android:id="@+id/bingo_1_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_1_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_1_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_1_3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_1_4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                </TableRow>
+                <TableRow android:layout_weight="1">
+                    <TextView android:id="@+id/bingo_2_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_2_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_2_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_2_3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_2_4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                </TableRow>
+                <TableRow android:layout_weight="1">
+                    <TextView android:id="@+id/bingo_3_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_3_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_3_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_3_3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_3_4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                </TableRow>
+                <TableRow android:layout_weight="1">
+                    <TextView android:id="@+id/bingo_4_0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_4_1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_4_2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_4_3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                    <TextView android:id="@+id/bingo_4_4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:background="@drawable/shp_frame_blue" android:textColor="#000000" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/quest_ans_layout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-                <RadioButton
-                    android:id="@+id/text_ans_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/content_margin"
+                android:orientation="vertical"
+                android:background="@drawable/overlap_green">
+                <TextView
+                    android:id="@+id/text_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:button="@null"
+                    android:gravity="left|center_vertical"
                     android:text=""
-                    android:textColor="#000000"
-                    android:textSize="@dimen/answer_size" />
-                <RadioButton
-                    android:id="@+id/text_ans_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:textColor="#cc6600"
+                    android:textSize="@dimen/question_size" />
+                <RadioGroup
+                    android:id="@+id/group_answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:button="@null"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="@dimen/answer_size" />
-                <RadioButton
-                    android:id="@+id/text_ans_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="@dimen/answer_size" />
-                <RadioButton
-                    android:id="@+id/text_ans_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:text=""
-                    android:textColor="#000000"
-                    android:textSize="@dimen/answer_size" />
-            </RadioGroup>
-        </LinearLayout>
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+                    <RadioButton
+                        android:id="@+id/text_ans_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textSize="@dimen/answer_size" />
+                    <RadioButton
+                        android:id="@+id/text_ans_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textSize="@dimen/answer_size" />
+                    <RadioButton
+                        android:id="@+id/text_ans_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textSize="@dimen/answer_size" />
+                    <RadioButton
+                        android:id="@+id/text_ans_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:button="@null"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textSize="@dimen/answer_size" />
+                </RadioGroup>
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
 </LinearLayout>
