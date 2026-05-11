@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -236,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 selected_bingo_text.setTag(R.id.bingo_status, mTurn);
                 selected_bingo_text.setEnabled(false);
             }
+            checkVictory();
         } else {
             showToast(R.string.toast_wrong_answer, false);
             if (selected_bingo_text != null) {
@@ -470,6 +472,126 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private int getBingoStatus(int r, int c) {
+        Object s = bingo_text[r][c].getTag(R.id.bingo_status);
+        return (s instanceof Integer) ? (Integer) s : -1;
+    }
+
+    private void checkVictory() {
+        int winner = -1;
+
+        // 1. 檢查橫線與直線
+        for (int i = 0; i < 5; i++) {
+            // 橫線
+            int rowS = getBingoStatus(i, 0);
+            if (rowS != -1) {
+                boolean rowWin = true;
+                for (int j = 1; j < 5; j++) {
+                    if (getBingoStatus(i, j) != rowS) {
+                        rowWin = false;
+                        break;
+                    }
+                }
+                if (rowWin) winner = rowS;
+            }
+
+            // 直線
+            int colS = getBingoStatus(0, i);
+            if (colS != -1) {
+                boolean colWin = true;
+                for (int j = 1; j < 5; j++) {
+                    if (getBingoStatus(j, i) != colS) {
+                        colWin = false;
+                        break;
+                    }
+                }
+                if (colWin) winner = colS;
+            }
+            if (winner != -1) break;
+        }
+
+        // 2. 檢查斜線
+        if (winner == -1) {
+            int d1S = getBingoStatus(0, 0);
+            if (d1S != -1) {
+                boolean d1Win = true;
+                for (int i = 1; i < 5; i++) {
+                    if (getBingoStatus(i, i) != d1S) {
+                        d1Win = false;
+                        break;
+                    }
+                }
+                if (d1Win) winner = d1S;
+            }
+        }
+
+        if (winner == -1) {
+            int d2S = getBingoStatus(0, 4);
+            if (d2S != -1) {
+                boolean d2Win = true;
+                for (int i = 1; i < 5; i++) {
+                    if (getBingoStatus(i, 4 - i) != d2S) {
+                        d2Win = false;
+                        break;
+                    }
+                }
+                if (d2Win) winner = d2S;
+            }
+        }
+
+        if (winner != -1) {
+            showVictoryDialog(winner);
+            return;
+        }
+
+        // 3. 檢查是否全盤填滿 (平手或比較分數)
+        boolean allFilled = true;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (getBingoStatus(i, j) == -1) {
+                    allFilled = false;
+                    break;
+                }
+            }
+        }
+
+        if (allFilled) {
+            if (mMan.score > mWoman.score) winner = Player.TURN_MAN;
+            else if (mWoman.score > mMan.score) winner = Player.TURN_WOMAN;
+            else winner = 2; // 代表平手
+
+            showVictoryDialog(winner);
+        }
+    }
+
+    private void showVictoryDialog(int winner) {
+        String message;
+        if (winner == Player.TURN_MAN) message = "恭喜男生獲得勝利！";
+        else if (winner == Player.TURN_WOMAN) message = "恭喜女生獲得勝利！";
+        else message = "雙方平手！";
+
+        new AlertDialog.Builder(this)
+                .setTitle("遊戲結束")
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("重新開始", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        MainActivity.this.startActivity(intent);
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("退出遊戲", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .show();
     }
 
 }
