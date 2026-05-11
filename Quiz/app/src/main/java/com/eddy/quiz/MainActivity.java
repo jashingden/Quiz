@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
     private Player mWoman = new Player();
     private int mTurn = Player.TURN_MAN;
 
+    private static final String KEY_BINGO_CAT_INDICES = "bingo_cat_indices";
+    private static final String KEY_BINGO_STATUS = "bingo_status";
+    private static final String KEY_TURN = "turn";
+    private static final String KEY_MAN_SCORE = "man_score";
+    private static final String KEY_WOMAN_SCORE = "woman_score";
+    private static final String KEY_MAN_FUNC = "man_func";
+    private static final String KEY_WOMAN_FUNC = "woman_func";
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +87,50 @@ public class MainActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_main);
 
         getView();
-        loadFiles();
+        loadFiles(savedInstanceState);
+        
+        if (savedInstanceState != null) {
+            mTurn = savedInstanceState.getInt(KEY_TURN);
+            mMan.score = savedInstanceState.getInt(KEY_MAN_SCORE);
+            mWoman.score = savedInstanceState.getInt(KEY_WOMAN_SCORE);
+            mMan.function_used = savedInstanceState.getBooleanArray(KEY_MAN_FUNC);
+            mWoman.function_used = savedInstanceState.getBooleanArray(KEY_WOMAN_FUNC);
+            
+            man_score.setText(String.valueOf(mMan.score));
+            woman_score.setText(String.valueOf(mWoman.score));
+            updateFunctions();
+            
+            if (mTurn == Player.TURN_MAN) {
+                player_man.setBackgroundResource(R.drawable.shp_frame_blue);
+                player_woman.setBackgroundColor(Color.TRANSPARENT);
+            } else {
+                player_woman.setBackgroundResource(R.drawable.shp_frame_blue);
+                player_man.setBackgroundColor(Color.TRANSPARENT);
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        int[] catIndices = new int[25];
+        int[] status = new int[25];
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                int pos = i * 5 + j;
+                Category cat = (Category) bingo_text[i][j].getTag();
+                catIndices[pos] = mCategoryList.indexOf(cat);
+                Object s = bingo_text[i][j].getTag(R.id.bingo_status);
+                status[pos] = (s instanceof Integer) ? (Integer) s : -1;
+            }
+        }
+        outState.putIntArray(KEY_BINGO_CAT_INDICES, catIndices);
+        outState.putIntArray(KEY_BINGO_STATUS, status);
+        outState.putInt(KEY_TURN, mTurn);
+        outState.putInt(KEY_MAN_SCORE, mMan.score);
+        outState.putInt(KEY_WOMAN_SCORE, mWoman.score);
+        outState.putBooleanArray(KEY_MAN_FUNC, mMan.function_used);
+        outState.putBooleanArray(KEY_WOMAN_FUNC, mWoman.function_used);
     }
 
     @Override
@@ -180,16 +231,17 @@ public class MainActivity extends AppCompatActivity {
             player.score ++;
             showToast(R.string.toast_right_answer, false);
             if (selected_bingo_text != null) {
-                selected_bingo_text.setBackgroundColor(Color.GREEN);
+                int color = (mTurn == Player.TURN_MAN) ? Color.BLUE : Color.MAGENTA;
+                selected_bingo_text.setBackgroundColor(color);
+                selected_bingo_text.setTag(R.id.bingo_status, mTurn);
+                selected_bingo_text.setEnabled(false);
             }
         } else {
             showToast(R.string.toast_wrong_answer, false);
             if (selected_bingo_text != null) {
-                selected_bingo_text.setBackgroundColor(Color.RED);
+                selected_bingo_text.setBackgroundResource(R.drawable.shp_frame_blue);
+                selected_bingo_text.setEnabled(true);
             }
-        }
-        if (selected_bingo_text != null) {
-            selected_bingo_text.setEnabled(false);
         }
         mQuestionAnswer = null;
         selected_bingo_text = null;
@@ -294,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         btn_func_assign = (Button)this.findViewById(R.id.btn_func_assign);
+        btn_func_assign.setVisibility(View.GONE);
         btn_func_assign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -368,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadFiles() {
+    private void loadFiles(Bundle savedInstanceState) {
         String[] cat_file = Utility.readStringArrayFromAssetFile(this, "category.txt");
 
         for (String file : cat_file) {
@@ -376,7 +429,11 @@ public class MainActivity extends AppCompatActivity {
             mCategoryList.add(new Category(this, mCategoryList, tmp[0], tmp[1]));
         }
 
-        initBingo();
+        if (savedInstanceState == null) {
+            initBingo();
+        } else {
+            restoreBingo(savedInstanceState);
+        }
     }
 
     private void initBingo() {
@@ -387,6 +444,30 @@ public class MainActivity extends AppCompatActivity {
                 Category cat = temp.get(index);
                 bingo_text[i][j].setText(cat.name);
                 bingo_text[i][j].setTag(cat);
+            }
+        }
+    }
+
+    private void restoreBingo(Bundle savedInstanceState) {
+        int[] catIndices = savedInstanceState.getIntArray(KEY_BINGO_CAT_INDICES);
+        int[] status = savedInstanceState.getIntArray(KEY_BINGO_STATUS);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                int pos = i * 5 + j;
+                Category cat = mCategoryList.get(catIndices[pos]);
+                bingo_text[i][j].setText(cat.name);
+                bingo_text[i][j].setTag(cat);
+                bingo_text[i][j].setTag(R.id.bingo_status, status[pos]);
+                if (status[pos] == Player.TURN_MAN) {
+                    bingo_text[i][j].setBackgroundColor(Color.BLUE);
+                    bingo_text[i][j].setEnabled(false);
+                } else if (status[pos] == Player.TURN_WOMAN) {
+                    bingo_text[i][j].setBackgroundColor(Color.MAGENTA);
+                    bingo_text[i][j].setEnabled(false);
+                } else {
+                    bingo_text[i][j].setBackgroundResource(R.drawable.shp_frame_blue);
+                    bingo_text[i][j].setEnabled(true);
+                }
             }
         }
     }
