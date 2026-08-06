@@ -1,5 +1,6 @@
 package com.eddy.quiz;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -14,7 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,21 +71,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 將畫面由全螢幕呈現
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // 修正Target35版面延展關係，改統一調整為顯示安全邊界
+        // 配合 Target36 Edge-to-Edge 邊到邊顯示，統一在 root content 視圖套用系統安全邊界 insets
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-        ViewCompat.setOnApplyWindowInsetsListener(getWindow().getDecorView(), new OnApplyWindowInsetsListener() {
+        this.setContentView(R.layout.activity_main);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), new OnApplyWindowInsetsListener() {
             @NonNull
             @Override
             public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
                 Insets mInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
                 v.setPadding(mInsets.left, mInsets.top, mInsets.right, mInsets.bottom);
-                return WindowInsetsCompat.CONSUMED;
+                return insets;
             }
         });
 
-        this.setContentView(R.layout.activity_main);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                showExitConfirmationDialog();
+            }
+        });
 
         getView();
         loadFiles(savedInstanceState);
@@ -134,22 +139,18 @@ public class MainActivity extends AppCompatActivity {
         outState.putBooleanArray(KEY_WOMAN_FUNC, mWoman.function_used);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.alert_title)
-                    .setMessage(R.string.alert_confirm_exit)
-                    .setPositiveButton(R.string.alert_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            MainActivity.this.finish();
-                            System.exit(0);
-                        }
-                    }).show();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    private void showExitConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.alert_title)
+                .setMessage(R.string.alert_confirm_exit)
+                .setPositiveButton(R.string.alert_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void showMessageDialog(int resId) {

@@ -4,14 +4,14 @@ plugins {
 
 android {
     namespace 'com.eddy.quiz'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.eddy.quiz"
-        minSdk 24
-        targetSdk 35
-        versionCode 7
-        versionName "1.2.4"
+        minSdk 28
+        targetSdk 36
+        versionCode 8
+        versionName "1.2.5"
     }
 
     lintOptions {
